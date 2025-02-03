@@ -21,6 +21,6 @@ pipeline {
 stage('Security Scan') {
     steps {
         echo 'Running security scan...'
-        sh 'docker run --rm ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://www.google.com/
+        sh 'docker run --rm ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://www.google.com
     }
 }
