@@ -28,11 +28,26 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_AUTH_TOKEN')]) {
-                        sh '''${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                        sh '''
+                        ${SONAR_SCANNER_HOME}/sonar-scanner \
                             -Dsonar.projectKey=MyProject \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=$SONAR_AUTH_TOKEN'''
+                            -Dsonar.login=$SONAR_AUTH_TOKEN
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline failed due to quality gate failure: ${qg.status}"
+                        }
                     }
                 }
             }
