@@ -24,6 +24,15 @@ pipeline {
                 echo 'Deploying application...'
             }
         }
+        
+        stage('Verify SonarQube Installation') {
+    steps {
+        sh 'echo "SonarQube Path: $SONAR_SCANNER_HOME"'
+        sh 'ls -l $SONAR_SCANNER_HOME'
+        sh 'ls -l $SONAR_SCANNER_HOME/bin'
+        sh 'which sonar-scanner || echo "SonarScanner no encontrado en el PATH"'
+    }
+}
 
         stage('SonarQube Analysis') {
             steps {
