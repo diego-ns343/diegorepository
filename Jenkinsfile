@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool 'SonarScanner'
+        // Usa el mismo nombre que configuraste en Jenkins: "SonarQube"
+        SONAR_SCANNER_HOME = tool 'SonarQube'
     }
 
     stages {
@@ -26,10 +27,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQube') { // Nombre que configuraste en Jenkins
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_AUTH_TOKEN')]) {
                         sh '''
-                        ${SONAR_SCANNER_HOME}/sonar-scanner \
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=MyProject \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://localhost:9000 \
@@ -72,3 +73,4 @@ pipeline {
         }
     }
 }
+
