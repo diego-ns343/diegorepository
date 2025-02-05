@@ -29,13 +29,13 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') { // Nombre que configuraste en Jenkins
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_AUTH_TOKEN')]) {
-                        sh '''
-                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                            -Dsonar.projectKey=MyProject \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=$SONAR_AUTH_TOKEN
-                        '''
+                    sh '''
+    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+    -Dsonar.projectKey=MyProject \
+    -Dsonar.sources=. \
+    -Dsonar.host.url=http://localhost:9000 \
+    -Dsonar.login=$SONAR_AUTH_TOKEN
+'''
                     }
                 }
             }
